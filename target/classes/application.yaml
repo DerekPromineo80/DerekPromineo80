@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    username: tree_harvest
+    password: tree_harvest
+    url: jdbc:mysql://localhost:3306/tree_harvest
+    
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    defer-datasource-initialization: true
+    
+  sql:
+    init:
+      mode: never

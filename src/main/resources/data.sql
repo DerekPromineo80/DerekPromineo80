@@ -1,0 +1,9 @@
+INSERT INTO Tree (tree) VALUES ('walnut');
+INSERT INTO Tree (tree) VALUES ('oak');
+INSERT INTO Tree (tree) VALUES ('poplar');
+INSERT INTO Tree (tree) VALUES ('ash');
+INSERT INTO Tree (tree) VALUES ('birch');
+INSERT INTO Tree (tree) VALUES ('sycamore');
+INSERT INTO Tree (tree) VALUES ('maple');
+INSERT INTO Tree (tree) VALUES ('pine');
+INSERT INTO Tree (tree) VALUES ('cedar');
