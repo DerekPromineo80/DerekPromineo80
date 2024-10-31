@@ -5,7 +5,7 @@ import java.util.Set;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import tree.harvest.entity.Forrester;
+import tree.harvest.entity.Forester;
 import tree.harvest.entity.GeoLocation;
 import tree.harvest.entity.Tree;
 import tree.harvest.entity.TreeField;
@@ -20,7 +20,7 @@ public class TreeFieldData {
 	private String treeFieldStateOrProvince;	
 	private String treeFieldCountry;		
 	private GeoLocation fieldGeoLocation;
-	private TreeFieldForrester forrester;
+	private TreeFieldForester forrester;
 	private Set<String> trees = new HashSet<>();
 	
 	public TreeFieldData(TreeField treeField) {
@@ -30,7 +30,7 @@ public class TreeFieldData {
 		treeFieldStateOrProvince = treeField.getTreeFieldStateOrProvince();
 		treeFieldCountry = treeField.getTreeFieldCountry();
 		fieldGeoLocation = treeField.getFieldGeoLocation();
-		forrester = new TreeFieldForrester(treeField.getForrester());
+		forrester = new TreeFieldForester(treeField.getForester());
 		
 		for(Tree tree : treeField.getTrees()) {
 			trees.add(tree.getTree());
@@ -40,17 +40,17 @@ public class TreeFieldData {
 	
 	@Data
 	@NoArgsConstructor
-	public static class TreeFieldForrester {
-		private Long forresterId;
-		private String forresterFirstName;
-		private String forresterLastName;
-		private String forresterEmail;
+	public static class TreeFieldForester {
+		private Long foresterId;
+		private String foresterFirstName;
+		private String foresterLastName;
+		private String foresterEmail;
 	
-		public TreeFieldForrester(Forrester forrester) {
-			forresterId = forrester.getForresterId();
-			forresterFirstName = forrester.getForresterFirstName();
-			forresterLastName = forrester.getForresterLastName();
-			forresterEmail = forrester.getForresterEmail();
+		public TreeFieldForester(Forester forester) {
+			foresterId = forester.getForesterId();
+			foresterFirstName = forester.getForesterFirstName();
+			foresterLastName = forester.getForesterLastName();
+			foresterEmail = forester.getForesterEmail();
 			
 		}
 	}

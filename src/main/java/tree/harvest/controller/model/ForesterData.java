@@ -5,29 +5,29 @@ import java.util.Set;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import tree.harvest.entity.Forrester;
+import tree.harvest.entity.Forester;
 import tree.harvest.entity.GeoLocation;
 import tree.harvest.entity.Tree;
 import tree.harvest.entity.TreeField;
 
 @Data
 @NoArgsConstructor
-public class ForresterData {
+public class ForesterData {
 
-	private Long forresterId;
-	private String forresterFirstName;
-	private String forresterLastName;
-	private String forresterEmail;
+	private Long foresterId;
+	private String foresterFirstName;
+	private String foresterLastName;
+	private String foresterEmail;
 	
 	private Set<TreeFieldResponse> treeFields = new HashSet<>();
 	
-	public ForresterData(Forrester forrester) {
-		forresterId = forrester.getForresterId();
-		forresterFirstName = forrester.getForresterFirstName();
-		forresterLastName = forrester.getForresterLastName();
-		forresterEmail = forrester.getForresterEmail();
+	public ForesterData(Forester forester) {
+		foresterId = forester.getForesterId();
+		foresterFirstName = forester.getForesterFirstName();
+		foresterLastName = forester.getForesterLastName();
+		foresterEmail = forester.getForesterEmail();
 		
-		for(TreeField treeField : forrester.getTreeFields()) {
+		for(TreeField treeField : forester.getTreeFields()) {
 			treeFields.add(new TreeFieldResponse(treeField));
 		}
 	}

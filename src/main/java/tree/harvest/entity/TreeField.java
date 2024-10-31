@@ -37,8 +37,8 @@ public class TreeField {
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude
 	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "forrester_id", nullable = false)
-	private Forrester forrester;
+	@JoinColumn(name = "forester_id", nullable = false)
+	private Forester forester;
 	
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude

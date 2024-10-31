@@ -14,12 +14,12 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import tree.harvest.controller.model.ForresterData;
+import tree.harvest.controller.model.ForesterData;
 import tree.harvest.controller.model.TreeFieldData;
-import tree.harvest.dao.ForresterDao;
+import tree.harvest.dao.ForesterDao;
 import tree.harvest.dao.TreeDao;
 import tree.harvest.dao.TreeFieldDao;
-import tree.harvest.entity.Forrester;
+import tree.harvest.entity.Forester;
 import tree.harvest.entity.Tree;
 import tree.harvest.entity.TreeField;
 
@@ -27,7 +27,7 @@ import tree.harvest.entity.TreeField;
 public class TreeFieldService {
 
 	@Autowired
-	private ForresterDao forresterDao;
+	private ForesterDao foresterDao;
 	
 	@Autowired
 	private TreeDao treeDao;
@@ -36,62 +36,62 @@ public class TreeFieldService {
 	private TreeFieldDao treeFieldDao;
 	
 	@Transactional(readOnly = false)
-	public ForresterData saveForrester(ForresterData forresterData) {
-		Long forresterId = forresterData.getForresterId();
-		Forrester forrester = findOrCreateForrester(forresterId,
-				forresterData.getForresterEmail());
+	public ForesterData saveForester(ForesterData foresterData) {
+		Long forresterId = foresterData.getForesterId();
+		Forester forester = findOrCreateForester(forresterId,
+				foresterData.getForesterEmail());
 		
-		setFieldsInForrester(forrester, forresterData);
+		setFieldsInForester(forester, foresterData);
 		
-		return new ForresterData(forresterDao.save(forrester));
+		return new ForesterData(foresterDao.save(forester));
 	}
 	
-	private void setFieldsInForrester(Forrester forrester,
-			ForresterData forresterData) {
-		forrester.setForresterEmail(forresterData.getForresterEmail());
-		forrester.setForresterFirstName(forresterData.getForresterFirstName());
-		forrester.setForresterLastName(forresterData.getForresterLastName());
+	private void setFieldsInForester(Forester forester,
+			ForesterData foresterData) {
+		forester.setForesterEmail(foresterData.getForesterEmail());
+		forester.setForesterFirstName(foresterData.getForesterFirstName());
+		forester.setForesterLastName(foresterData.getForesterLastName());
 		
 	}
 	
-	private Forrester findOrCreateForrester(Long forresterId,
-			String forresterEmail) {
-		Forrester forrester;
+	private Forester findOrCreateForester(Long foresterId,
+			String foresterEmail) {
+		Forester forester;
 		
-		if(Objects.isNull(forresterId)) {
-			Optional<Forrester> opForrester = 
-					forresterDao.findByForresterEmail(forresterEmail);
+		if(Objects.isNull(foresterId)) {
+			Optional<Forester> opForrester = 
+					foresterDao.findByForesterEmail(foresterEmail);
 			
 			if(opForrester.isPresent()) {
 				throw new DuplicateKeyException (
-					"Forrester with email " + forresterEmail 
+					"Forester with email " + foresterEmail 
 					+ " already exists."); 
 			}
 			
-			forrester = new Forrester();
+			forester = new Forester();
 		}
 		else {
-			forrester = findForresterById(forresterId);
+			forester = findForesterById(foresterId);
 			
 		}
 		
-		return forrester;
+		return forester;
 		
 	}
 	
-	private Forrester findForresterById(Long forresterId) {
-		return forresterDao.findById(forresterId)
+	private Forester findForesterById(Long foresterId) {
+		return foresterDao.findById(foresterId)
 				.orElseThrow(() -> new NoSuchElementException(
-						"Contributor with ID=" + forresterId + " was not found."));
+						"Forester with ID=" + foresterId + " was not found."));
 	}
 
 	@Transactional(readOnly = true)
-	public List<ForresterData> retrieveAllForresters() {
-		List<Forrester> forresters = forresterDao.findAll();
-		List<ForresterData> response = new LinkedList<>();
+	public List<ForesterData> retrieveAllForesters() {
+		List<Forester> foresters = foresterDao.findAll();
+		List<ForesterData> response = new LinkedList<>();
 		
-		for (Forrester forrester : forresters) {
-			response.add(new ForresterData(forrester));
+		for (Forester forester : foresters) {
+			response.add(new ForesterData(forester));
 		}
 		
 		return response;
@@ -99,22 +99,22 @@ public class TreeFieldService {
 	}
 	
 	@Transactional(readOnly = true)
-	public ForresterData retrieveForresterId(Long forresterId) {
-		Forrester forrester = findForresterById(forresterId);
-		return new ForresterData(forrester);
+	public ForesterData retrieveForesterId(Long foresterId) {
+		Forester forester = findForesterById(foresterId);
+		return new ForesterData(forester);
 	}
 	
 	@Transactional(readOnly = false)
-	public void deleteForresterById(Long forresterId) {
-		Forrester forrester = findForresterById(forresterId);
-		forresterDao.delete(forrester);
+	public void deleteForesterById(Long foresterId) {
+		Forester forester = findForesterById(foresterId);
+		foresterDao.delete(forester);
 	}
 
 	
 	@Transactional(readOnly = false)
-	public TreeFieldData saveTreeField(Long forresterId,
+	public TreeFieldData saveTreeField(Long foresterId,
 			TreeFieldData treeFieldData) {
-		Forrester forrester = findForresterById(forresterId);
+		Forester forester = findForesterById(foresterId);
 		
 		Set<Tree> trees = 
 				treeDao.findAllByTreeIn(treeFieldData.getTrees());
@@ -122,8 +122,8 @@ public class TreeFieldService {
 		TreeField treeField = findOrCreateTreeField(treeFieldData.getTreeFieldId());
 		setTreeFieldFields(treeField, treeFieldData);
 		
-		treeField.setForrester(forrester);
-		forrester.getTreeFields().add(treeField);
+		treeField.setForester(forester);
+		forester.getTreeFields().add(treeField);
 		
 		for(Tree tree : trees) {
 			tree.getTreeFields().add(treeField);
@@ -168,13 +168,13 @@ public class TreeFieldService {
 	}
 	
 	@Transactional(readOnly = true)
-	public TreeFieldData retrieveTreeFieldById(Long forresterId, Long treeFieldId) {
-		findForresterById(forresterId);
+	public TreeFieldData retrieveTreeFieldById(Long foresterId, Long treeFieldId) {
+		findForesterById(foresterId);
 		TreeField treeField = findTreeFieldById(treeFieldId);
 		
-		if(treeField.getForrester().getForresterId() != forresterId) {
+		if(treeField.getForester().getForesterId() != foresterId) {
 			throw new IllegalStateException("Tree Field with ID=" + treeFieldId 
-					+ " is not owned by Forrester with ID=" + forresterId);
+					+ " is not owned by Forester with ID=" + foresterId);
 		}
 		
 		return new TreeFieldData(treeField);

@@ -16,24 +16,24 @@ import lombok.ToString;
 
 @Entity
 @Data
-public class Forrester {
+public class Forester {
 
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long forresterId;
+	private Long foresterId;
 	
-	private String forresterFirstName;
-	private String forresterLastName;
+	private String foresterFirstName;
+	private String foresterLastName;
 	
 	
 	@Column(unique = true)
-	private String forresterEmail;
+	private String foresterEmail;
 	
 
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude
-	@OneToMany(mappedBy = "forrester", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "forester", cascade = CascadeType.ALL)
 	private Set<TreeField> treeFields = new HashSet<>();
 	
 }

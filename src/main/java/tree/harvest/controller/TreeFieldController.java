@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.extern.slf4j.Slf4j;
-import tree.harvest.controller.model.ForresterData;
+import tree.harvest.controller.model.ForesterData;
 import tree.harvest.controller.model.TreeFieldData;
 import tree.harvest.service.TreeFieldService;
 
@@ -28,83 +28,83 @@ public class TreeFieldController {
 	@Autowired
 	private TreeFieldService treeFieldService;
 	
-	@PostMapping("/forrester")
+	@PostMapping("/forester")
 	@ResponseStatus(code = HttpStatus.CREATED)
-	public ForresterData insertForester(
-			@RequestBody ForresterData forresterData) {
-		log.info("Creating Forrester {}", forresterData);
-		return treeFieldService.saveForrester(forresterData);
+	public ForesterData insertForester(
+			@RequestBody ForesterData foresterData) {
+		log.info("Creating Forester {}", foresterData);
+		return treeFieldService.saveForester(foresterData);
 	}
 	
-	@PutMapping("/forrester/{forresterId}")
-	public ForresterData updateForrester(@PathVariable Long forresterId,
-			@RequestBody ForresterData forresterData) {
-		forresterData.setForresterId(forresterId);
-		log.info("Updating Forrester {}", forresterData);
-		return treeFieldService.saveForrester(forresterData);
+	@PutMapping("/forester/{foresterId}")
+	public ForesterData updateForester(@PathVariable Long foresterId,
+			@RequestBody ForesterData foresterData) {
+		foresterData.setForesterId(foresterId);
+		log.info("Updating Forrester {}", foresterData);
+		return treeFieldService.saveForester(foresterData);
 	}
 	
-	@GetMapping("/forrester")
-	public List<ForresterData> retrieveAllForresters() {
+	@GetMapping("/forester")
+	public List<ForesterData> retrieveAllForesters() {
 		log.info("Retrieve all Foresters called.");
-		return treeFieldService.retrieveAllForresters();
+		return treeFieldService.retrieveAllForesters();
 	}
 	
-	@GetMapping("/forrester/{forresterId}")
-	public ForresterData retrieveForresterById(@PathVariable Long forresterId) {
-		log.info("Retrieving Forrester with ID={}", forresterId);
-		return treeFieldService.retrieveForresterId(forresterId);
+	@GetMapping("/forester/{foresterId}")
+	public ForesterData retrieveForesterById(@PathVariable Long foresterId) {
+		log.info("Retrieving Forrester with ID={}", foresterId);
+		return treeFieldService.retrieveForesterId(foresterId);
 	}
 	
-	@DeleteMapping("/forrester")
-	public void deleteAllForresters() {
-		log.info("Attempting to delete all Forresters");
-		throw new UnsupportedOperationException("Deleting all Forresters is prohibited");		
+	@DeleteMapping("/forester")
+	public void deleteAllForesters() {
+		log.info("Attempting to delete all Foresters");
+		throw new UnsupportedOperationException("Deleting all Foresters is prohibited");		
 	}
 	
-	@DeleteMapping("/forrester/{forresterId}")
-	public Map<String, String> deleteForresterById(
-			@PathVariable Long forresterId) {
+	@DeleteMapping("/forester/{foresterId}")
+	public Map<String, String> deleteForesterById(
+			@PathVariable Long foresterId) {
 		
-		log.info("Deleting Forrester with ID={}", forresterId);
+		log.info("Deleting Forester with ID={}", foresterId);
 		
-		treeFieldService.deleteForresterById(forresterId);
+		treeFieldService.deleteForesterById(foresterId);
 		
-		return Map.of("message", "Deletion of contributor with ID="
-				+ forresterId + " was successful.");
+		return Map.of("message", "Deletion of Forester with ID="
+				+ foresterId + " was successful.");
 				
 	}
 	
-	@PostMapping("/forrester/{forresterId}/treeField")
+	@PostMapping("/forester/{foresterId}/treeField")
 	@ResponseStatus(code = HttpStatus.CREATED)
-	public TreeFieldData insertTreeField(@PathVariable Long forresterId,
+	public TreeFieldData insertTreeField(@PathVariable Long foresterId,
 			@RequestBody TreeFieldData treeFieldData) {
-		log.info("Creating Tree Field {} for Forrester with ID={}", treeFieldData,
-				forresterId);
+		log.info("Creating Tree Field {} for Forester with ID={}", treeFieldData,
+				foresterId);
 		
-		return treeFieldService.saveTreeField(forresterId, treeFieldData);
+		return treeFieldService.saveTreeField(foresterId, treeFieldData);
 		
 	}
 	
-	@PutMapping("/forrester/{forresterId}/treeField/{treeFieldId}")
-	public TreeFieldData updateTreeField(@PathVariable Long forresterId,
+	@PutMapping("/forester/{foresterId}/treeField/{treeFieldId}")
+	public TreeFieldData updateTreeField(@PathVariable Long foresterId,
 			@PathVariable Long treeFieldId,
 			@RequestBody TreeFieldData treeFieldData) {
 		treeFieldData.setTreeFieldId(treeFieldId);
 		
-		log.info("Updating Tree Field {} for Forrester with ID={}", 
-				treeFieldData, forresterId);
+		log.info("Updating Tree Field {} for Forester with ID={}", 
+				treeFieldData, foresterId);
 		
-		return treeFieldService.saveTreeField(forresterId, treeFieldData);
+		return treeFieldService.saveTreeField(foresterId, treeFieldData);
 	}
 	
-	@GetMapping("/forrester/{forresterId}/treeField/{treeFieldId}")
-	public TreeFieldData retrievePetParkById(@PathVariable Long forresterId,
+	@GetMapping("/forester/{foresterId}/treeField/{treeFieldId}")
+	public TreeFieldData retrievePetParkById(@PathVariable Long foresterId,
 			@PathVariable Long treeFieldId) {
-		log.info("Retrieving Tree Field with ID={} for Forrester with ID={}",
-				treeFieldId, forresterId);
+		log.info("Retrieving Tree Field with ID={} for Forester with ID={}",
+				treeFieldId, foresterId);
 		
-		return treeFieldService.retrieveTreeFieldById(forresterId, treeFieldId);
+		return treeFieldService.retrieveTreeFieldById(foresterId, treeFieldId);
 	}
 	
 }
