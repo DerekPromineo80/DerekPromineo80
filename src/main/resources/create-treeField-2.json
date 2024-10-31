@@ -1,0 +1,13 @@
+{
+  "treeFieldName": "Monongahela National Forest",
+  "treeFieldDescription": "Monongahela National Forest was established in 1920 and encompasses one of the most ecologically diverse areas in the United States.",
+  "treeFieldStateOrProvince": "WV",
+  "treeFieldCountry": "USA",
+  "fieldGeoLocation": {
+    "latitude": "38.92521",
+    "longitude": "79.84959"
+  },
+  "trees": [
+    "Chestnut", "White Oak", "Eastern White Pine", "Red Oak", "Black Oak", "Red Maple", "Yellow Poplar"
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "treeFieldName": "Francis Marion-Sumter National Forest",
+  "treeFieldDescription": "The Francis Marion National Forest is located in the coastal plain of South Carolina and is bounded to the north by Santee River, the Intracoastal Waterway and the Atlantic Ocean to the east. ",
+  "treeFieldStateOrProvince": "SC",
+  "treeFieldCountry": "USA",
+  "fieldGeoLocation": {
+    "latitude": "33.09656",
+    "longitude": "79.80341"
+  },
+  "trees": [
+    "Southern Yellow Pine", "Eastern White Pine"
+  ]
+}

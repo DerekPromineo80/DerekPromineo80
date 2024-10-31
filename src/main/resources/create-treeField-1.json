@@ -1,0 +1,13 @@
+{
+  "treeFieldName": "Allegheny National Forest",
+  "treeFieldDescription": "Situated on the Allegheny Plateau, the forest is comprised of 514,029 acres in the northwestern corner of the state.",
+  "treeFieldStateOrProvince": "PA",
+  "treeFieldCountry": "USA",
+  "fieldGeoLocation": {
+    "latitude": "41.84613",
+    "longitude": "79.14922"
+  },
+  "trees": [
+    "Black Cherry", "Eastern Hemlock", "Red Maple"
+  ]
+}

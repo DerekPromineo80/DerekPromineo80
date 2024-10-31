@@ -1,0 +1,13 @@
+{
+  "treeFieldName": "",
+  "treeFieldDescription": "",
+  "treeFieldStateOrProvince": "",
+  "treeFieldCountry": "",
+  "fieldGeoLocation": {
+    "latitude": "00.00000",
+    "longitude": "00.00000"
+  },
+  "trees": [
+    "", "", ""
+  ]
+}

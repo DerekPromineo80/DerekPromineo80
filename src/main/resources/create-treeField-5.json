@@ -1,0 +1,13 @@
+{
+  "treeFieldName": "Texas National Forest",
+  "treeFieldDescription": "The U.S. Forest Service manages approximately 675,000 acres of public land in Texas. This land is divided into four National Forests in east Texas and the Caddo-Lyndon B. Johnson National Grasslands in northeast Texas",
+  "treeFieldStateOrProvince": "TX",
+  "treeFieldCountry": "USA",
+  "fieldGeoLocation": {
+    "latitude": "31.33703",
+    "longitude": "94.72723"
+  },
+  "trees": [
+    "Ponderosa Pine"
+  ]
+}

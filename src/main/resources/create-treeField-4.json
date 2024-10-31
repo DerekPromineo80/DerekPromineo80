@@ -1,0 +1,13 @@
+{
+  "treeFieldName": "Mississippi National Forest",
+  "treeFieldDescription": "From the pine forests of the Gulf Coastal Plain to the upland hardwoods in the northern part of the state, the National Forests in Mississippi covers 1.2 million acres of diverse natural resources and valued public lands spread across the state.",
+  "treeFieldStateOrProvince": "MS",
+  "treeFieldCountry": "USA",
+  "fieldGeoLocation": {
+    "latitude": "30.85945",
+    "longitude": "89.13782"
+  },
+  "trees": [
+    "Southern Yellow Pine"
+  ]
+}
