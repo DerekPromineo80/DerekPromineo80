@@ -2,8 +2,8 @@ package tree.harvest.entity;
 
 import java.util.HashSet;
 import java.util.Set;
-
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -33,18 +33,20 @@ public class TreeField {
 	
 	@Embedded
 	private GeoLocation fieldGeoLocation;
-	
+	  
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "forester_id", nullable = false)
-	private Forester forester;
+    @ManyToMany(cascade = CascadeType.PERSIST)
+    @JoinTable(name = "tree_field_forester",
+            joinColumns = @JoinColumn(name = "forester_id"),
+            inverseJoinColumns = @JoinColumn(name = "tree_field_id"))
+	private Set<Forester> foresters = new HashSet<>();
 	
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude
 	@ManyToMany(cascade = CascadeType.PERSIST)
-	@JoinTable(name = "tree_harvest_tree",
-			joinColumns = @JoinColumn(name = "field_id"),
+	@JoinTable(name = "tree_field_tree",
+			joinColumns = @JoinColumn(name = "tree_field_id"),
 			inverseJoinColumns = @JoinColumn(name = "tree_id"))
 	private Set<Tree> trees = new HashSet<>();
 	

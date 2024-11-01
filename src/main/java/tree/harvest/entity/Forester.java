@@ -9,6 +9,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -17,8 +20,6 @@ import lombok.ToString;
 @Entity
 @Data
 public class Forester {
-
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long foresterId;
@@ -26,14 +27,15 @@ public class Forester {
 	private String foresterFirstName;
 	private String foresterLastName;
 	
-	
 	@Column(unique = true)
 	private String foresterEmail;
 	
-
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude
-	@OneToMany(mappedBy = "forester", cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.PERSIST)
+    @JoinTable(name = "tree_field_forester",
+            joinColumns = @JoinColumn(name = "tree_field_id"),
+            inverseJoinColumns = @JoinColumn(name = "forester_id"))	
 	private Set<TreeField> treeFields = new HashSet<>();
 	
 }

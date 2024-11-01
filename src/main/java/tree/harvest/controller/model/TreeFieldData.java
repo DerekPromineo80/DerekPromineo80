@@ -2,7 +2,8 @@ package tree.harvest.controller.model;
 
 import java.util.HashSet;
 import java.util.Set;
-
+import java.util.stream.Collectors;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import tree.harvest.entity.Forester;
@@ -20,7 +21,7 @@ public class TreeFieldData {
 	private String treeFieldStateOrProvince;	
 	private String treeFieldCountry;		
 	private GeoLocation fieldGeoLocation;
-	private TreeFieldForester forrester;
+	private Set<TreeFieldForester> foresters;
 	private Set<String> trees = new HashSet<>();
 	
 	public TreeFieldData(TreeField treeField) {
@@ -30,12 +31,23 @@ public class TreeFieldData {
 		treeFieldStateOrProvince = treeField.getTreeFieldStateOrProvince();
 		treeFieldCountry = treeField.getTreeFieldCountry();
 		fieldGeoLocation = treeField.getFieldGeoLocation();
-		forrester = new TreeFieldForester(treeField.getForester());
+		foresters = treeField.getForesters().stream().map(forester -> {
+		  return new TreeFieldForester(forester);
+		}).collect(Collectors.toSet());
 		
 		for(Tree tree : treeField.getTrees()) {
 			trees.add(tree.getTree());
 		}
 		
+	}
+	
+	/**
+	 * Checks to see or ensure that all of the required fields are available.
+	 * @return True if valid, false if otherwise.
+	 */
+	@JsonIgnore
+	public boolean isValid() {
+	  return (treeFieldName != null) && (! treeFieldName.isEmpty());
 	}
 	
 	@Data

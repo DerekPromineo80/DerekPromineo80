@@ -1,25 +1,24 @@
 package tree.harvest.service;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
-
-
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
-
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import tree.harvest.controller.model.ForesterData;
 import tree.harvest.controller.model.TreeFieldData;
 import tree.harvest.dao.ForesterDao;
 import tree.harvest.dao.TreeDao;
 import tree.harvest.dao.TreeFieldDao;
 import tree.harvest.entity.Forester;
+import tree.harvest.entity.GeoLocation;
 import tree.harvest.entity.Tree;
 import tree.harvest.entity.TreeField;
 
@@ -111,29 +110,29 @@ public class TreeFieldService {
 	}
 
 	
-	@Transactional(readOnly = false)
-	public TreeFieldData saveTreeField(Long foresterId,
-			TreeFieldData treeFieldData) {
-		Forester forester = findForesterById(foresterId);
-		
-		Set<Tree> trees = 
-				treeDao.findAllByTreeIn(treeFieldData.getTrees());
-		
-		TreeField treeField = findOrCreateTreeField(treeFieldData.getTreeFieldId());
-		setTreeFieldFields(treeField, treeFieldData);
-		
-		treeField.setForester(forester);
-		forester.getTreeFields().add(treeField);
-		
-		for(Tree tree : trees) {
-			tree.getTreeFields().add(treeField);
-			treeField.getTrees().add(tree);
-		}
-		
-		TreeField dbTreeField = treeFieldDao.save(treeField);
-		return new TreeFieldData(dbTreeField);
-		
-	}
+//	@Transactional(readOnly = false)
+//	public TreeFieldData saveTreeField(Long foresterId,
+//			TreeFieldData treeFieldData) {
+//		Forester forester = findForesterById(foresterId);
+//		
+//		Set<Tree> trees = 
+//				treeDao.findAllByTreeIn(treeFieldData.getTrees());
+//		
+//		TreeField treeField = findOrCreateTreeField(treeFieldData.getTreeFieldId());
+//		setTreeFieldFields(treeField, treeFieldData);
+//		
+//		treeField.setForesters(forester);
+//		forester.getTreeFields().add(treeField);
+//		
+//		for(Tree tree : trees) {
+//			tree.getTreeFields().add(treeField);
+//			treeField.getTrees().add(tree);
+//		}
+//		
+//		TreeField dbTreeField = treeFieldDao.save(treeField);
+//		return new TreeFieldData(dbTreeField);
+//		
+//	}
 	
 	private void setTreeFieldFields(TreeField treeField, TreeFieldData treeFieldData) {
 		treeField.setTreeFieldCountry(treeFieldData.getTreeFieldCountry());
@@ -167,20 +166,51 @@ public class TreeFieldService {
 						"does not exist."));
 	}
 	
-	@Transactional(readOnly = true)
-	public TreeFieldData retrieveTreeFieldById(Long foresterId, Long treeFieldId) {
-		findForesterById(foresterId);
-		TreeField treeField = findTreeFieldById(treeFieldId);
-		
-		if(treeField.getForester().getForesterId() != foresterId) {
-			throw new IllegalStateException("Tree Field with ID=" + treeFieldId 
-					+ " is not owned by Forester with ID=" + foresterId);
-		}
-		
-		return new TreeFieldData(treeField);
-		
+//	@Transactional(readOnly = true)
+//	public TreeFieldData retrieveTreeFieldById(Long foresterId, Long treeFieldId) {
+//		Forester forester = findForesterById(foresterId);
+//		TreeField treeField = findTreeFieldById(treeFieldId);
+//		
+//		if(treeField.getForester().getForesterId() != foresterId) {
+//			throw new IllegalStateException("Tree Field with ID=" + treeFieldId 
+//					+ " is not owned by Forester with ID=" + foresterId);
+//		}
+//		
+//		return new TreeFieldData(treeField);
+//		
+//	}
+	
+	public List<TreeFieldData> getAllForests() {
+	  List<TreeField> forests = treeFieldDao.findAll();
+	  if (! forests.isEmpty()) {
+	    return forests.stream().map((forest) -> new TreeFieldData(forest))
+                     	       .collect(Collectors.toList());
+	  }
+	  return new ArrayList<TreeFieldData>();
 	}
 	
+	public TreeFieldData createForest(TreeFieldData forest) {
+	  if ((forest != null) && (forest.isValid())) {
+	    TreeField entity = new TreeField();
+	    entity.setTreeFieldName(forest.getTreeFieldName());
+        entity.setTreeFieldDescription(forest.getTreeFieldDescription());
+        entity.setTreeFieldStateOrProvince(forest.getTreeFieldStateOrProvince());
+        entity.setTreeFieldCountry(forest.getTreeFieldCountry());
+        entity.setFieldGeoLocation(new GeoLocation(forest.getFieldGeoLocation()));
+        entity.setTrees(forest.getTrees().stream().map(tree -> {
+          // Lookup the id for the tree...
+          Tree existingTree = treeDao.findByName(tree);
+          return existingTree;
+        }).filter(t -> t != null)
+          .collect(Collectors.toSet()));
+        
+	    TreeField result = treeFieldDao.save(entity);
+	    if (result != null) {
+	       return new TreeFieldData(result);
+	    }
+	  }
+	  return null;
+	}
 }
 
 
