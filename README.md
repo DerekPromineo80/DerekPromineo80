@@ -1,5 +1,7 @@
-Welcome to Derek McGuire's Final Project Repository!
+Welcome to Derek McGuire's Repository!
 
-(Weeks 16-18)
+* My Final Project Has Moved *
 
-Updated as of Week 17
+For my Final Project, please see this link:
+
+https://github.com/DerekPromineo80/FinalProject
